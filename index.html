@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0078D4" />
+  <meta name="description" content="Shed is a lightweight, gamified PWA that helps you break habits and track your progress." />
+  <title>Shed — Break the habit</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-background" aria-hidden="true"></div>
+
+  <header class="app-bar">
+    <div class="app-bar-brand">
+      <svg class="logo" viewBox="0 0 48 48" aria-hidden="true">
+        <rect x="6" y="6" width="36" height="36" rx="8" fill="#0078D4" />
+        <path d="M16 24h16M24 16v16" stroke="white" stroke-width="4" stroke-linecap="round" />
+      </svg>
+      <h1>Shed</h1>
+    </div>
+    <div class="app-bar-stats" id="globalStats">
+      <span class="stat-badge" title="Level">
+        <span aria-hidden="true">🏆</span>
+        <span id="globalLevel">Lv. 1</span>
+      </span>
+      <span class="stat-badge" title="Total XP">
+        <span aria-hidden="true">✨</span>
+        <span id="globalXp">0 XP</span>
+      </span>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="hero">
+      <p class="hero-title">Break habits, one day at a time.</p>
+      <p class="hero-subtitle">Track your streaks, earn XP, and keep your progress safely on your device.</p>
+    </section>
+
+    <section class="toolbar" aria-label="Actions">
+      <button class="button primary" id="addHabitBtn" type="button">
+        <span aria-hidden="true">＋</span> New habit
+      </button>
+      <div class="toolbar-group">
+        <button class="button ghost" id="exportBtn" type="button">Export progress</button>
+        <button class="button ghost" id="importBtn" type="button">Open progress</button>
+      </div>
+    </section>
+
+    <section class="habits" id="habitsContainer" aria-live="polite">
+      <div class="empty-state" id="emptyState">
+        <div class="empty-icon" aria-hidden="true">🌱</div>
+        <p>No habits yet.</p>
+        <p class="empty-hint">Tap <strong>New habit</strong> to start breaking one.</p>
+      </div>
+    </section>
+  </main>
+
+  <dialog class="fluent-dialog" id="habitDialog">
+    <form id="habitForm" method="dialog">
+      <h2 id="habitDialogTitle">New habit</h2>
+      <label for="habitName">What habit are you breaking?</label>
+      <input id="habitName" name="name" type="text" placeholder="e.g., Late-night scrolling" required maxlength="60" />
+      <label for="habitDifficulty">Difficulty</label>
+      <select id="habitDifficulty" name="difficulty">
+        <option value="1">Easy (+10 XP/day)</option>
+        <option value="2" selected>Medium (+20 XP/day)</option>
+        <option value="3">Hard (+30 XP/day)</option>
+      </select>
+      <div class="dialog-actions">
+        <button class="button ghost" type="button" id="cancelHabitBtn">Cancel</button>
+        <button class="button primary" type="submit">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="fluent-dialog" id="confirmDialog">
+    <form id="confirmForm" method="dialog">
+      <h2 id="confirmTitle">Confirm</h2>
+      <p id="confirmMessage">Are you sure?</p>
+      <div class="dialog-actions">
+        <button class="button ghost" type="submit" value="cancel">Cancel</button>
+        <button class="button accent" type="submit" value="confirm" id="confirmActionBtn">Confirm</button>
+      </div>
+    </form>
+  </dialog>
+
+  <input type="file" id="importFileInput" accept=".shed,application/json" hidden />
+
+  <footer class="app-footer">
+    <p>Shed · Your data stays on this device.</p>
+  </footer>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
